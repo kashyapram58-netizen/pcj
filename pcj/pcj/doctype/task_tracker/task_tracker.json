@@ -5,18 +5,65 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_mqok"
+  "task",
+  "assigned_to",
+  "start_date",
+  "original_due_date",
+  "revised_due_date",
+  "extension_count",
+  "score",
+  "completed_on"
  ],
  "fields": [
   {
-   "fieldname": "section_break_mqok",
-   "fieldtype": "Section Break"
+   "fieldname": "task",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Task",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "label": "Assigned To",
+   "options": "User"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "original_due_date",
+   "fieldtype": "Date",
+   "label": "Original Due Date"
+  },
+  {
+   "fieldname": "revised_due_date",
+   "fieldtype": "Date",
+   "label": "Revised Due Date"
+  },
+  {
+   "fieldname": "extension_count",
+   "fieldtype": "Int",
+   "label": "Extension Count"
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Float",
+   "label": "Score",
+   "read_only": 1
+  },
+  {
+   "fieldname": "completed_on",
+   "fieldtype": "Date",
+   "label": "Completed on"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-01 23:36:41.976761",
+ "modified": "2026-07-01 23:41:20.037196",
  "modified_by": "Administrator",
  "module": "PCJ",
  "name": "Task Tracker",
