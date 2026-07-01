@@ -1,7 +1,9 @@
 {
+    "doctype": "Report",
+    "name": "Task Score Dashboard",
     "report_name": "Task Score Dashboard",
     "report_type": "Script Report",
     "ref_doctype": "Task Tracker",
-    "is_standard": "Yes",
-    "module": "PCJ"
+    "module": "PCJ",
+    "is_standard": "Yes"
 }
