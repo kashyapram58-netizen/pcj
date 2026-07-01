@@ -3,10 +3,31 @@
 
 import frappe
 from frappe.model.document import Document
-from frappe.utils import today
+from frappe.utils import today, now_datetime
+from frappe.model.naming import make_autoname
 
 
 class TaskTracker(Document):
+    
+    def autoname(self):
+        if not self.assigned_to:
+            frappe.throw("Assigned To is mandatory before naming the Task.")
+
+        # Get the user's full name
+        full_name = frappe.db.get_value(
+            "User",
+            self.assigned_to,
+            "full_name"
+        ) or self.assigned_to
+
+        # Use the first word of the name (e.g., Ram Sharma -> Ram)
+        first_name = full_name.split()[0].title()
+
+        year = now_datetime().year
+
+        self.name = make_autoname(
+            f"TT-{first_name}-{year}-.#####"
+        )
 
     def validate(self):
         self.validate_revised_due_date_permission()
