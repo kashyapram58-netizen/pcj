@@ -64,14 +64,14 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Completed\nFailed\nIn Progress\nCancelled",
+   "options": "Completed\nFailed\nIn Progress\nCancelled\nOverdue",
    "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-02 20:24:15.863196",
+ "modified": "2026-07-02 20:27:57.940701",
  "modified_by": "Administrator",
  "module": "PCJ",
  "name": "Task Tracker",
