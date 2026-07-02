@@ -61,17 +61,18 @@
    "label": "Completed on"
   },
   {
+   "default": "Draft",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Completed\nFailed\nIn Progress\nCancelled\nOverdue",
+   "options": "Completed\nFailed\nIn Progress\nCancelled\nOverdue\nDraft",
    "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-02 20:27:57.940701",
+ "modified": "2026-07-02 20:34:19.001923",
  "modified_by": "Administrator",
  "module": "PCJ",
  "name": "Task Tracker",

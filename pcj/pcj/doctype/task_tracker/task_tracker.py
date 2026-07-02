@@ -28,11 +28,26 @@ class TaskTracker(Document):
         self.name = make_autoname(
             f"TT-{first_name}-{year}-.#####"
         )
+    def update_status(self):
+          if self.status in ["Completed", "Failed"]:
+                return
+          if self.completed_on:
+                self.status = "Completed"
+                return
+          due_date = frappe.utils.getdate(self.revised_due_date or self.original_due_date)
+          if due_date and due_date < frappe.utils.getdate(today()):
+                self.status = "Overdue"
+          else:
+                self.status = "In Progress"
+          if self.score == 0:  
+                self.status = "Failed"   
+
 
     def validate(self):
         self.validate_revised_due_date_permission()
         self.validate_dates()
-        self.track_extension()
+        if not self.completed_on:
+            self.track_extension()
         self.calculate_score()
         self.update_status()
         # self.send_extension_email()
@@ -99,10 +114,10 @@ class TaskTracker(Document):
     # Status Logic
     # ---------------------------------------------------------
 
-    def update_status(self):
+    # def update_status(self):
 
-        if self.score == 0:
-            self.status = "Failed"
+    #     if self.score == 0:
+    #         self.status = "Failed"
 
     # ---------------------------------------------------------
     # Email Notification
