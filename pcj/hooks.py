@@ -152,9 +152,11 @@ app_license = "mit"
 # 	"all": [
 # 		"pcj.tasks.all"
 # 	],
-# 	"daily": [
-# 		"pcj.tasks.daily"
-# 	],
+scheduler_events = {
+    "daily": [
+        "pcj.utils.overdue.send_overdue_task_reminders"
+    ]
+}
 # 	"hourly": [
 # 		"pcj.tasks.hourly"
 # 	],
