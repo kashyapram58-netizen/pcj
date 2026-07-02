@@ -12,7 +12,8 @@
   "revised_due_date",
   "extension_count",
   "score",
-  "completed_on"
+  "completed_on",
+  "status"
  ],
  "fields": [
   {
@@ -58,12 +59,19 @@
    "fieldname": "completed_on",
    "fieldtype": "Date",
    "label": "Completed on"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Completed\nFailed\nIn Progress\nCancelled",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-01 23:41:20.037196",
+ "modified": "2026-07-02 20:24:15.863196",
  "modified_by": "Administrator",
  "module": "PCJ",
  "name": "Task Tracker",
