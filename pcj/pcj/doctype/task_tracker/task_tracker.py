@@ -29,7 +29,7 @@ class TaskTracker(Document):
             f"TT-{first_name}-{year}-.#####"
         )
     def update_status(self):
-          if self.status in ["Completed", "Failed"]:
+          if self.status in ["Completed", "Failed", "In Progress"]:
                 return
           if self.completed_on:
                 self.status = "Completed"
