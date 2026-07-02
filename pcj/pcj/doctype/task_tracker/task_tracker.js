@@ -11,6 +11,7 @@ frappe.ui.form.on("Task Tracker", {
         if (!frm.is_new()) {
             frm.set_df_property("original_due_date", "read_only", 1);
         }
+        frm.dashboard.clear_headline();
 
         // Visual indicator based on score
         if (!frm.is_new()) {

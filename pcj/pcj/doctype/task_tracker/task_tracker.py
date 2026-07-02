@@ -35,7 +35,7 @@ class TaskTracker(Document):
         self.track_extension()
         self.calculate_score()
         self.update_status()
-        self.send_extension_email()
+        # self.send_extension_email()
 
     # ---------------------------------------------------------
     # Validations
@@ -51,6 +51,7 @@ class TaskTracker(Document):
         if self.original_due_date and self.revised_due_date:
             if self.revised_due_date < self.original_due_date:
                 frappe.throw("Revised Due Date cannot be before Original Due Date.")
+                
 
     # ---------------------------------------------------------
     # Extension Tracking
@@ -131,11 +132,11 @@ class TaskTracker(Document):
 
         frappe.sendmail(
             recipients=[self.assigned_to],
-            subject=f"Task '{self.task_name}' Extended Multiple Times",
+            subject=f"Task '{self.task}' Extended Multiple Times",
             message=f"""
                 <p>Hello,</p>
 
-                <p>Your task <b>{self.task_name}</b> has now been extended
+                <p>Your task <b>{self.task}</b> has now been extended
                 <b>{self.extension_count}</b> times.</p>
 
                 <p>Current Score : <b>{self.score}</b></p>
@@ -169,4 +170,6 @@ class TaskTracker(Document):
 					if not any(role in frappe.get_roles() for role in allowed_roles):
 						frappe.throw(
 							"You are not permitted to modify the Revised Due Date."
+							
 						)
+                                    
