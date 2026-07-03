@@ -8,7 +8,7 @@ from frappe.model.naming import make_autoname
 
 
 class TaskTracker(Document):
-    
+
     def autoname(self):
         if not self.assigned_to:
             frappe.throw("Assigned To is mandatory before naming the Task.")
@@ -28,20 +28,20 @@ class TaskTracker(Document):
         self.name = make_autoname(
             f"TT-{first_name}-{year}-.#####"
         )
-    def update_status(self):
-          if self.status in ["Completed", "Failed", "In Progress"]:
-                return
-          if self.completed_on:
-                self.status = "Completed"
-                return
-          due_date = frappe.utils.getdate(self.revised_due_date or self.original_due_date)
-          if due_date and due_date < frappe.utils.getdate(today()):
-                self.status = "Overdue"
-          else:
-                self.status = "In Progress"
-          if self.score == 0:  
-                self.status = "Failed"   
 
+    def update_status(self):
+        if self.status in ["Completed", "Failed", "In Progress"]:
+            return
+        if self.completed_on:
+            self.status = "Completed"
+            return
+        due_date = frappe.utils.getdate(self.revised_due_date or self.original_due_date)
+        if due_date and due_date < frappe.utils.getdate(today()):
+            self.status = "Overdue"
+        else:
+            self.status = "In Progress"
+        if self.score == 0:
+            self.status = "Failed"
 
     def validate(self):
         self.validate_revised_due_date_permission()
@@ -50,7 +50,7 @@ class TaskTracker(Document):
             self.track_extension()
         self.calculate_score()
         self.update_status()
-        # self.send_extension_email()
+        self.send_extension_email()
 
     # ---------------------------------------------------------
     # Validations
@@ -66,7 +66,6 @@ class TaskTracker(Document):
         if self.original_due_date and self.revised_due_date:
             if self.revised_due_date < self.original_due_date:
                 frappe.throw("Revised Due Date cannot be before Original Due Date.")
-                
 
     # ---------------------------------------------------------
     # Extension Tracking
@@ -109,15 +108,6 @@ class TaskTracker(Document):
         count = self.extension_count or 0
 
         self.score = score_map.get(count, 0)
-
-    # ---------------------------------------------------------
-    # Status Logic
-    # ---------------------------------------------------------
-
-    # def update_status(self):
-
-    #     if self.score == 0:
-    #         self.status = "Failed"
 
     # ---------------------------------------------------------
     # Email Notification
@@ -163,28 +153,31 @@ class TaskTracker(Document):
                 <p>ERPNext</p>
             """
         )
+
     def validate_revised_due_date_permission(self):
-					"""
-					Only authorized roles can change the Revised Due Date.
-					"""
+        """
+        Only authorized roles can change the Revised Due Date.
+        """
 
-					# New document creation is allowed
-					if self.is_new():
-						return
+        # New document creation is allowed
+        if self.is_new():
+            return
 
-					previous_doc = self.get_doc_before_save()
-					if not previous_doc:
-						return
+        previous_doc = self.get_doc_before_save()
+        if not previous_doc:
+            return
 
-					# Nothing changed
-					if previous_doc.revised_due_date == self.revised_due_date:
-						return
+        # Normalize dates to ensure reliable comparison
+        prev_date = frappe.utils.getdate(previous_doc.revised_due_date)
+        curr_date = frappe.utils.getdate(self.revised_due_date)
 
-					allowed_roles = ["System Manager", "Task Manager"]
+        # Nothing changed
+        if prev_date == curr_date:
+            return
 
-					if not any(role in frappe.get_roles() for role in allowed_roles):
-						frappe.throw(
-							"You are not permitted to modify the Revised Due Date."
-							
-						)
-                                    
+        allowed_roles = ["System Manager", "Task Manager"]
+
+        if not any(role in frappe.get_roles() for role in allowed_roles):
+            frappe.throw(
+                "You are not permitted to modify the Revised Due Date."
+            )
